@@ -20,19 +20,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Initial load
-    getCurrentUser().then((currentUser) => {
-      setUser(currentUser)
-      setLoading(false)
-    })
+    // Initial load - handle both success and error cases
+    getCurrentUser()
+      .then((currentUser) => {
+        setUser(currentUser)
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error('Error fetching initial user:', error)
+        setUser(null)
+        setLoading(false)
+      })
 
     // Listen for auth changes
-    const { data } = onAuthStateChange((currentUser) => {
+    const authSubscription = onAuthStateChange((currentUser) => {
       setUser(currentUser)
     })
 
     return () => {
-      data.subscription.unsubscribe()
+      authSubscription.subscription.unsubscribe()
     }
   }, [])
 

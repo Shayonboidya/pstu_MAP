@@ -69,47 +69,19 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <BrowserRouter>
-          <MainLayout>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
+          <Routes>
+            <Route element={<MainLayout />}>
+              <Route index element={<HomePage />} />
               <Route path="/locations/:id" element={<LocationPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
-              <Route
-                path="/my-submissions"
-                element={
-                  <ProtectedRoute>
-                    <SubmissionsPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin"
-                element={
-                  <AdminRoute>
-                    <AdminDashboardPage />
-                  </AdminRoute>
-                }
-              />
-              <Route
-                path="/admin/locations"
-                element={
-                  <AdminRoute>
-                    <ManageLocationsPage />
-                  </AdminRoute>
-                }
-              />
-              <Route
-                path="/admin/submissions"
-                element={
-                  <AdminRoute>
-                    <ReviewSubmissionsPage />
-                  </AdminRoute>
-                }
-              />
+              <Route path="/my-submissions" element={<ProtectedRoute><SubmissionsPage /></ProtectedRoute>} />
+              <Route path="/admin" element={<AdminRoute><AdminDashboardPage /></AdminRoute>} />
+              <Route path="/admin/locations" element={<AdminRoute><ManageLocationsPage /></AdminRoute>} />
+              <Route path="/admin/submissions" element={<AdminRoute><ReviewSubmissionsPage /></AdminRoute>} />
               <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </MainLayout>
+            </Route>
+          </Routes>
         </BrowserRouter>
       </AuthProvider>
       <ToastContainer
